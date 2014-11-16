@@ -20,8 +20,8 @@
             }
         ]
     },
-    "shortName": "Irish Rail Next Train",
-    "uuid": "09c1c0dc-7eb0-4b0b-89b5-379516cd3cf4",
+    "shortName": "master",
+    "uuid": "ca73a6a1-5f2f-4151-b993-6113f551e674",
     "versionCode": 1,
     "versionLabel": "1.0",
     "watchapp": {

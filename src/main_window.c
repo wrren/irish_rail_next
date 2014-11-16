@@ -51,7 +51,7 @@ static void initialise_ui(void)
 	layer_add_child(window_get_root_layer(s_window), (Layer *)s_south_inverter);
 
 // s_southbound
-	s_southbound = text_layer_create(GRect(0, 76, 144, 20));
+	s_southbound = text_layer_create(GRect(0, 75, 144, 20));
 	text_layer_set_background_color(s_southbound, GColorClear);
 	text_layer_set_text_color(s_southbound, GColorWhite);
 	text_layer_set_text(s_southbound, "South Bound");

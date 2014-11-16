@@ -1,0 +1,30 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "warren.kenny@gmail.com",
+    "longName": "Irish Rail Next Train",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/arrow_down.png",
+                "name": "r_arrow_down",
+                "type": "png"
+            },
+            {
+                "file": "images/arrow_up.png",
+                "name": "r_arrow_up",
+                "type": "png"
+            }
+        ]
+    },
+    "shortName": "Irish Rail Next Train",
+    "uuid": "09c1c0dc-7eb0-4b0b-89b5-379516cd3cf4",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}

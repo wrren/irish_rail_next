@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pebble IrishRail Next</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="station_list_title">Select Displayed Station</string>
+    <string name="pebble_app_uuid">ca73a6a1-5f2f-4151-b993-6113f551e674</string>
+</resources>

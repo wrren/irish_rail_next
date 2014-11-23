@@ -10,6 +10,7 @@ import android.util.Log;
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -32,6 +33,8 @@ public class StationUpdateAlarm extends BroadcastReceiver
 	private static final String PARAM_STATION_LAT 	= "rdcl.ie.pebbleirishrailnext.service.extra.STATION_LAT";
 	private static final String PARAM_STATION_LON 	= "rdcl.ie.pebbleirishrailnext.service.extra.STATION_LON";
 
+	private static final int MAX_DISPLAYED_TRAINS 	= 4;
+
 	/**
 	 * Begin or continue the update loop
 	 * @param context	Application Context
@@ -39,8 +42,6 @@ public class StationUpdateAlarm extends BroadcastReceiver
 	 */
 	public static void set( Context context, IrishRailApi.StationInfo station )
 	{
-
-
 		if( alarmManager == null )
 		{
 			alarmManager = ( AlarmManager ) context.getSystemService( Context.ALARM_SERVICE );
@@ -70,15 +71,39 @@ public class StationUpdateAlarm extends BroadcastReceiver
 		{
 			alarmManager.cancel( pending );
 		}
+		UUID uuid = UUID.fromString( context.getString( R.string.pebble_app_uuid ) );
+		updatePebble( context, uuid, "Select Station", null );
+	}
 
+	public static void updatePebble( Context context, UUID uuid, String station, List<IrishRailApi.TrainInfo> trains )
+	{
 		PebbleDictionary dictionary = new PebbleDictionary();
+		dictionary.addString( 0, station );
 
-		dictionary.addString( 0, 	"Select Station" );
-		dictionary.addInt32( 1, 	0 );
-		dictionary.addString( 2, 	"Select Station" );
-		dictionary.addInt32( 3, 	0 );
+		if( trains == null )
+		{
+			trains = new ArrayList<IrishRailApi.TrainInfo>();
+		}
 
-		PebbleKit.sendDataToPebble( context, UUID.fromString( context.getString( R.string.pebble_app_uuid ) ), dictionary );
+		int index = 1;
+
+		for( int i = 0; i < MAX_DISPLAYED_TRAINS; i++ )
+		{
+			if( i < trains.size() )
+			{
+				dictionary.addString( index++, trains.get( i ).destination );
+				dictionary.addInt32( index++, trains.get( i ).due );
+				dictionary.addInt32( index++, trains.get( i ).direction == IrishRailApi.TrainInfo.Direction.NORTH ? 0 : 1 );
+			}
+			else
+			{
+				dictionary.addString( index++, 	"" );
+				dictionary.addInt32( index++, 	-1 );
+				dictionary.addInt32( index++, 	2 );
+			}
+		}
+
+		PebbleKit.sendDataToPebble( context, uuid, dictionary );
 	}
 
 	/**
@@ -89,7 +114,6 @@ public class StationUpdateAlarm extends BroadcastReceiver
 	public static void send( final Context context, IrishRailApi.StationInfo station )
 	{
 		IrishRailApi api = new IrishRailApi( context );
-		final UUID uuid = UUID.fromString( context.getString( R.string.pebble_app_uuid ) );
 
 		api.getTrainList( station, new IrishRailApi.OnTrainListReceivedListener()
 		{
@@ -105,39 +129,8 @@ public class StationUpdateAlarm extends BroadcastReceiver
 				Log.d( "Station Update Alarm", "Received " + trains.size() + " Trains!" );
 				Collections.sort( trains );
 
-				IrishRailApi.TrainInfo north = null, south = null;
-
-				for( IrishRailApi.TrainInfo train : trains )
-				{
-					if( north != null && south != null )
-					{
-						break;
-					}
-					if( north == null && train.direction == IrishRailApi.TrainInfo.Direction.NORTH )
-					{
-						north = train;
-					}
-
-					if( south == null && train.direction == IrishRailApi.TrainInfo.Direction.SOUTH )
-					{
-						south = train;
-					}
-				}
-
-				PebbleDictionary dictionary = new PebbleDictionary();
-
-				if( north != null )
-				{
-					dictionary.addString( 0, north.destination );
-					dictionary.addInt32( 1, north.due );
-				}
-				if( south != null )
-				{
-					dictionary.addString( 2, south.destination );
-					dictionary.addInt32( 3, south.due );
-				}
-
-				PebbleKit.sendDataToPebble( context, uuid, dictionary );
+				UUID uuid = UUID.fromString( context.getString( R.string.pebble_app_uuid ) );
+				updatePebble( context, uuid, station.name, trains );
 			}
 
 			@Override

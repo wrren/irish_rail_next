@@ -24,6 +24,8 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <receiver android:name=".api.StationUpdateAlarm"/>
     </application>
 
 </manifest>

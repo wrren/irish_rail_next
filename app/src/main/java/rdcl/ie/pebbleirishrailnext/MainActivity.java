@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 import rdcl.ie.pebbleirishrailnext.api.IrishRailApi;
+import rdcl.ie.pebbleirishrailnext.api.StationUpdateAlarm;
 import rdcl.ie.pebbleirishrailnext.service.StationUpdateService;
 
 
@@ -172,11 +173,11 @@ public class MainActivity extends ActionBarActivity
 
 				if( adapter.setCheckedStation( view, station ) )
 				{
-					StationUpdateService.selectStation( getApplicationContext(), station );
+					StationUpdateAlarm.set( getApplicationContext(), station );
 				}
 				else
 				{
-					StationUpdateService.stopUpdating( getApplicationContext() );
+					StationUpdateAlarm.stop( getApplicationContext() );
 				}
 			}
 		} );

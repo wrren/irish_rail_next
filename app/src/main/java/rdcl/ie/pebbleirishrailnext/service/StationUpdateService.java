@@ -129,7 +129,7 @@ public class StationUpdateService extends IntentService
 	private static final String ACTION_STOP_UPDATING	= "rdcl.ie.pebbleirishrailnext.service.action.STOP_UPDATING";
 
 	// Station Data Parameters
-	public static final String PARAM_STATION_NAME 	= "rdcl.ie.pebbleirishrailnext.service.extra.STATION_NAME";
+	private static final String PARAM_STATION_NAME 	= "rdcl.ie.pebbleirishrailnext.service.extra.STATION_NAME";
 	private static final String PARAM_STATION_CODE 	= "rdcl.ie.pebbleirishrailnext.service.extra.STATION_CODE";
 	private static final String PARAM_STATION_LAT 	= "rdcl.ie.pebbleirishrailnext.service.extra.STATION_LAT";
 	private static final String PARAM_STATION_LON 	= "rdcl.ie.pebbleirishrailnext.service.extra.STATION_LON";
